@@ -46,10 +46,6 @@ match c.r_rendermode:
     #    import template_render as render
     case 1:
         import pygame_render as render
-    case 2:
-        # import pysdl_render as render
-        logger.Print(__name__, "PySDL not supported yet", "ERROR")
-        sys.exit(0)
     case _:
         logger.Print(__name__, "Invalid r_rendermode", "ERROR")
         sys.exit(0)
