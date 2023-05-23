@@ -48,7 +48,7 @@ gamestate_allowed = None    # There should be a list of allowed states here. Thi
 gamestate = None            # The current state of the game.
 
 # Engine settings   ---
-g_version = "22.05.2023"    # Engine version
+g_version = "23.05.2023"    # Engine version
 g_name = "Flappy Thing"     # Window name
 g_debug = False             # Debug mode
 g_width = 288               # Window width
