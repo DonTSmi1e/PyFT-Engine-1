@@ -155,14 +155,9 @@ class Pipe(pygame.sprite.Sprite):
 
         if self.rect.x < -52:
             if c.gamestate == "INGAME" and not self.flipped:
-                c.lvl_ypos[self.pos] = random.randint(-100, 100)
+                c.lvl_ypos[self.pos] = random.randint(-50, 50)
                 c.lvl_score += 1
                 pygame.mixer.Sound.play(sounds[2])
-
-                #if c.lvl_score in [5, 10, 15]:
-                #    c.lvl_ppos += 3
-                #    c.r_objgroups["enemy"].add(Pipe(False, 1 + c.lvl_ppos))
-                #    c.r_objgroups["enemy"].add(Pipe(True, 1 + c.lvl_ppos))
 
             if c.gamestate == "INGAME":
                 self.pipe_skin = 1 if c.lvl_score >= 1000 else 0
