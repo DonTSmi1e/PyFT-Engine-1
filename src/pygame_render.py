@@ -101,20 +101,13 @@ def Update():
             Shutdown()
             return 0
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_PAUSE:
-                c.r_pause = not c.r_pause
-                
-            if c.gamestate in ["NEWGAME", "GAMEOVER"]:
-                if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP:
+                if c.gamestate in ["NEWGAME", "GAMEOVER"]:
                     c.gamestate = "INGAME"
                     LoadObjects()
                     c.p_player.jump()
-            elif c.gamestate == "INGAME":
-                if event.key == pygame.K_UP:
+                elif c.gamestate == "INGAME":
                     c.p_player.jump()
-    
-    if c.r_pause:
-        return
 
     c.r_screen.blit(entities.sprites["background"][selected_bg], (0, 0))
 
@@ -123,36 +116,21 @@ def Update():
         c.r_objgroups[group].draw(c.r_screen)
 
     # HUD code
-    hud_score = str(c.lvl_score)
-    if len(hud_score) == 1:
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score)], ((c.g_width/2)-14,40))
-    elif len(hud_score) == 2:
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score[0])], ((c.g_width/2)-25,40))
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score[1])], ((c.g_width/2)-3,40))
-    elif len(hud_score) == 3:
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score[0])], ((c.g_width/2)-36,40))
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score[1])], ((c.g_width/2)-14,40))
-        c.r_screen.blit(entities.sprites["hud"][int(hud_score[2])], ((c.g_width/2)+8,40))
+    if c.gamestate in ["INGAME", "GAMEOVER"]:
+        hud_score = str(c.lvl_score)
+        if len(hud_score) == 1:
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score)], ((c.g_width/2)-14,40))
+        elif len(hud_score) == 2:
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score[0])], ((c.g_width/2)-25,40))
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score[1])], ((c.g_width/2)-3,40))
+        elif len(hud_score) == 3:
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score[0])], ((c.g_width/2)-36,40))
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score[1])], ((c.g_width/2)-14,40))
+            c.r_screen.blit(entities.sprites["hud"][int(hud_score[2])], ((c.g_width/2)+8,40))
 
     if c.gamestate == "NEWGAME":
         c.r_screen.blit(entities.sprites["ui"][0], (0,0))
     elif c.gamestate == "GAMEOVER":
         c.r_screen.blit(entities.sprites["ui"][1 if c.lvl_score < 1000 else 2], (0,0))
 
-    if c.g_debug:
-        debug = [c.r_font.render(f"PyFT Engine 1", True, (255, 255, 255)),
-                c.r_font.render(f"FPS: {c.r_fps}", True, (255, 255, 255)),
-                c.r_font.render(f"Game state: {c.gamestate}", True, (255, 255, 255)),
-                c.r_font.render(f"Current time: {logger.datetime.now().strftime('%H:%M:%S')}", True, (255, 255 ,255)),
-                c.r_font.render(f"Warnings: {logger.warnings}", True, (255, 255, 0)),
-                c.r_font.render(f"Errors: {logger.errors}", True, (255, 0, 0))]
-        RenderLines(debug, 10)
-
     pygame.display.flip()
-
-def RenderLines(lines, firstpos):
-    firstpos = 10
-    for line in lines:
-        line.set_alpha(200)
-        c.r_screen.blit(line, (10, firstpos+20))
-        firstpos += 20
